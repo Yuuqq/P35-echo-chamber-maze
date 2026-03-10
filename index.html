@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>P35 信息茧房收敛迷宫</title>
+  <link rel="stylesheet" href="../shared/design-tokens.css" />
+  <link rel="stylesheet" href="./styles.css" />
+  <meta name="description" content="信息茧房收敛迷宫。P35 信息茧房收敛迷宫" />
+  <meta property="og:title" content="P35 信息茧房收敛迷宫" />
+  <meta property="og:description" content="信息茧房收敛迷宫 — 前端纯静态新闻工具" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yuuqq.github.io/P35-echo-chamber-maze/" />
+</head>
+
+<body>
+  <main class="app">
+    <header class="hero">
+      <h1>信息茧房收敛迷宫</h1>
+      <p>模拟社交平台的算法推荐机制，体验信息茧房如何一步步形成。</p>
+    </header>
+
+    <section class="card" style="background:linear-gradient(135deg,#f0f7ff,#e8f4fd);border-left:4px solid #2563eb">
+      <h2 style="margin-top:0;font-size:1.1rem">🎓 什么是信息茧房？</h2>
+      <p style="font-size:0.95rem;line-height:1.7;margin:0">
+        哈佛法学院凯斯·桑斯坦（Cass Sunstein）提出的概念：当算法持续推荐你"喜欢"的内容时，你会逐渐只看到单一观点，如同被困在一个信息的"茧"中。
+      </p>
+      <details style="margin-top:12px">
+        <summary style="cursor:pointer;font-weight:600;color:#2563eb">📖 如何体验这个模拟？</summary>
+        <ol style="font-size:0.9rem;line-height:1.8;margin-top:8px;padding-left:20px">
+          <li><strong>初始状态</strong>：信息流包含 A（支持）/ B（质疑）/ C（中立）三种观点，多样性指数 = 100</li>
+          <li><strong>连续点击同一观点</strong>（如一直点"观点 A"），观察信息流内容和多样性指数的变化</li>
+          <li><strong>观察收敛</strong>：每次点击后，该观点占比增大，其他声音逐渐消失</li>
+          <li><strong>茧房形成</strong>：当多样性指数降至个位数时，你将只能看到单一立场的内容</li>
+          <li><strong>思考</strong>：现实中的社交平台，是否正在对你做同样的事？</li>
+        </ol>
+      </details>
+    </section>
+
+    <section class="card">
+      <div class="actions">
+        <button data-tag="A">🔵 观点 A（支持）</button>
+        <button data-tag="B">🔴 观点 B（质疑）</button>
+        <button data-tag="C">⚪ 观点 C（中立）</button>
+        <button id="resetBtn" type="button" class="btn-secondary">重置</button>
+      </div>
+      <p id="status" aria-live="polite">状态: 连续点击同一观点，观察信息流如何收窄 →</p>
+      <div id="diversity" class="diversity-wrap">
+        <span>多样性指数: <strong>100</strong></span>
+        <div class="diversity-bar">
+          <div class="diversity-fill" style="width:100%;background:var(--ok,#0b7a3b)"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div id="feed" class="feed"></div>
+    </section>
+
+    <section class="card">
+      <h2>📜 操作历史</h2>
+      <div id="history" class="history"></div>
+    </section>
+  </main>
+  <script src="./pm-metrics.js" defer></script>
+  <script src="./app.js" defer></script>
+
+  <!-- Privacy Notice -->
+  <div style="text-align:center;padding:12px 16px;font-size:12px;color:#888;border-top:1px solid #eee;margin-top:24px;">
+    🔒 隐私提示：本工具所有数据处理均在您的浏览器本地完成，不会上传任何数据至服务器。
+  </div>
+
+  <!-- Cross-Project Navigation -->
+  <nav
+    style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-size:13px;border-top:1px solid #e5e5e5;margin-top:16px;color:#666;">
+    <a href="https://yuuqq.github.io/_codex/" style="text-decoration:none;">📋 工具箱导航</a>
+    <span style="opacity:.4">P35</span>
+  </nav>
+</body>
+
+</html>

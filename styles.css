@@ -1,0 +1,14 @@
+:root{--bg:#f4f8ff;--card:#fff;--line:#d4deee;--ink:#1c2a44}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"Source Sans 3","Noto Sans SC",sans-serif;background:var(--bg)}
+.app{max-width:980px;margin:0 auto;padding:16px}
+.hero,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.hero h1{margin:0 0 8px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:8px 14px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#4f7cc6,#2f579f);font:inherit}
+.feed{display:grid;gap:8px}
+.bubble{padding:10px;border-radius:10px;color:#fff}
+.A{background:#3f7cc7}
+.B{background:#c26a3f}
+.C{background:#4da56b}
+
