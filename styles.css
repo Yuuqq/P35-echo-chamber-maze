@@ -172,3 +172,52 @@ details.teach-card[open] summary {
     .hero { background: var(--card, #fff); }
   }
 }
+
+/* =====================================================================
+ * v2.5 tool-specific — per-tool unique enhancements
+ * Archetypes: chart_svg, chip_tag
+ * ===================================================================== */
+
+/* Chart/SVG visualization emphasis */
+svg { display: block; max-width: 100%; }
+svg text { font-family: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif; }
+.chart, .chart-card, .chartWrap, [id="chart"], [id="scatterPlot"], [id="chartContainer"] {
+  border-radius: 12px;
+  background: var(--card, #fff);
+  position: relative;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  svg [data-bar], svg .bar, svg path[data-segment], svg rect[data-bar] {
+    transition: opacity 0.15s ease;
+  }
+  svg [data-bar]:hover, svg .bar:hover { opacity: 0.85; }
+}
+
+/* Chip / tag / pill rows */
+.chips, .tag, .badge {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip, .chips > *, .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.85em;
+  background: var(--card, #fff);
+  border: 1px solid var(--line, rgba(15,23,42,.14));
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+@media (hover: hover) {
+  .chip:hover, .tag:hover {
+    border-color: var(--accent, var(--focus, #2563eb));
+    cursor: pointer;
+  }
+}
+
+/* P35 — Maze cells */
+.cell, .maze-cell { transition: background 0.15s ease, transform 0.15s ease; cursor: pointer; }
+.cell:hover { transform: scale(1.05); }
+
