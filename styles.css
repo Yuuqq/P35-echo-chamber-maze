@@ -1,4 +1,4 @@
-:root{--bg:#f2f8ff;--card:#fff;--line:#cfe0f1;--ink:#17304b}
+:root{--bg:#f2f8ff;--card:#fff;--line:#cfe0f1;--ink:#17304b;--ink-secondary:#6b7d99;--accent:#7c3aed;--accent-hover:#5b21b6;--accent-light:#ede9fe}
   *{box-sizing:border-box}
   body{margin:0;color:var(--ink);font-family:"Source Sans 3","Noto Sans SC",sans-serif;background:var(--bg)}
   .app{max-width:1100px;margin:0 auto;padding:16px}
@@ -7,15 +7,15 @@
   .top-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
   @media(max-width:700px){.top-grid{grid-template-columns:1fr}}
   .diversity-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.9rem}
-  .diversity-track{height:14px;background:#f0f0f0;border-radius:999px;overflow:hidden}
+  .diversity-track{height:14px;background:var(--line);border-radius:999px;overflow:hidden}
   .tag-filter-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}
-  .tag-btn{border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.8rem;cursor:pointer;background:#f8f8f8;color:var(--ink);transition:all .15s}
-  .tag-btn:hover{background:#ede9fe;border-color:#7c3aed;color:#7c3aed}
+  .tag-btn{border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.8rem;cursor:pointer;background:var(--bg);color:var(--ink);transition:all .15s}
+  .tag-btn:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
   .reset-btn{margin-top:10px;border:0;border-radius:999px;padding:8px 14px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#64748b,#475569);font:inherit;font-size:.85rem;transition:all .2s}
   .reset-btn:hover{transform:translateY(-1px)}
   .feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   @media(max-width:700px){.feed-grid{grid-template-columns:1fr}}
-  .news-item{border-radius:12px;border:1px solid var(--line);padding:12px;background:#fafbfd;display:flex;flex-direction:column;gap:6px}
+  .news-item{border-radius:12px;border:1px solid var(--line);padding:12px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
   .tag-pill{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:700}
   .tag-a{background:#dcfce7;color:#14532d}
   .tag-b{background:#fee2e2;color:#7f1d1d}
@@ -25,14 +25,14 @@
   .read-btn{border:0;border-radius:999px;padding:5px 12px;color:#fff;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#5b21b6);font:inherit;font-size:.8rem;transition:all .2s;align-self:flex-start}
   .read-btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(124,58,237,.3)}
   .hist-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
-  .hist-row{display:grid;grid-template-columns:40px 90px 1fr;gap:6px;font-size:.78rem;padding:4px 6px;border-radius:6px;background:#f8f8f8}
-  .hist-step{color:#999;font-size:.7rem}
+  .hist-row{display:grid;grid-template-columns:40px 90px 1fr;gap:6px;font-size:.78rem;padding:4px 6px;border-radius:6px;background:var(--bg)}
+  .hist-step{color:var(--ink-secondary);font-size:.7rem}
   .hist-tag{font-weight:700;font-size:.75rem}
-  .hist-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#555}
-  :root[data-theme="dark"]{--bg:#1a1a2e;--card:#242438;--line:#3a3a50;--ink:#e8e8f0}
-  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1a2e;--card:#242438;--line:#3a3a50;--ink:#e8e8f0}}
+  .hist-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-secondary)}
+  :root[data-theme="dark"]{--bg:#1a1a2e;--card:#242438;--line:#3a3a50;--ink:#e8e8f0;--ink-secondary:#a8b8d0;--accent:#a78bfa;--accent-hover:#c4b5fd;--accent-light:rgba(167,139,250,.18)}
+  @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1a2e;--card:#242438;--line:#3a3a50;--ink:#e8e8f0;--ink-secondary:#a8b8d0;--accent:#a78bfa;--accent-hover:#c4b5fd;--accent-light:rgba(167,139,250,.18)}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .app{animation:fadeInUp .4s ease-out}
   details.teach-card summary{cursor:pointer;font-weight:700}
-  details.teach-card p{margin:8px 0 0;font-size:.9rem;line-height:1.65;color:#555}
+  details.teach-card p{margin:8px 0 0;font-size:.9rem;line-height:1.65;color:var(--ink-secondary)}
   
