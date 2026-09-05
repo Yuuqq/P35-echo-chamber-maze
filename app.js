@@ -191,13 +191,15 @@ renderDiversityBar();
   try {
     if (!window.pmMetrics) return;
     let taskStarted = false;
-    document.addEventListener('click', function (e) {
+    const onFirstClick = function (e) {
       if (taskStarted) return;
       const btn = e.target.closest('button');
       if (btn) {
         taskStarted = true;
         window.pmMetrics.markTaskStart('echo_chamber_task');
+        document.removeEventListener('click', onFirstClick);
       }
-    }, { once: false });
+    };
+    document.addEventListener('click', onFirstClick, { once: false });
   } catch (_e) { }
 })();
