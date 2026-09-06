@@ -11,6 +11,7 @@
   <meta property="og:description" content="信息茧房收敛迷宫">
     <title>P35 信息茧房收敛迷宫</title>
     <link rel="stylesheet" href="../shared/design-tokens.css"/>
+<link rel="stylesheet" href="https://yuuqq.github.io/shared/design-tokens.css" />
     <link rel="stylesheet" href="./styles.css"/>
     <meta name="description" content="体验算法如何逐步构建信息茧房：点击新闻，观察多样性指数下降，理解过滤泡沫机制。"/>
     <link rel="manifest" href="./manifest.json"/>
@@ -24,7 +25,7 @@
       </header>
 
       <section class="card">
-        <details class="teach-card" open>
+        <details class="teach-card">
           <summary>🎓 信息茧房与过滤泡沫</summary>
           <p>个性化推荐算法通过分析你的点击行为，持续强化你已有的偏好，导致你接触到的信息越来越单一——这就是「信息茧房」（Filter Bubble）。本工具模拟这一过程：每次点击都会悄悄改变你的信息流，直到你意识到自己只听到了一种声音。</p>
         </details>
@@ -69,7 +70,21 @@
     </nav>
     <script src="./pm-metrics.js" defer></script>
     <script src="./app.js" defer></script>
-    <script src="../shared/releases/v2.6/loader.js" data-modules="dark,cmd,toast,onboarding,nav,kbd"></script>
+    <script>
+(function () {
+  var modules = "dark,cmd,toast,onboarding,nav,kbd";
+  var s = document.createElement("script");
+  s.src = "../shared/releases/v2.6/loader.js";
+  s.setAttribute("data-modules", modules);
+  s.onerror = function () {
+    var t = document.createElement("script");
+    t.src = "https://yuuqq.github.io/shared/releases/v2.6/loader.js";
+    t.setAttribute("data-modules", modules);
+    document.body.appendChild(t);
+  };
+  document.body.appendChild(s);
+})();
+</script>
     <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
   </body>
   </html>
