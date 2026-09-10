@@ -54,13 +54,6 @@
   };
 
   const TAG_LABELS = { A:"🟢 支持方叙事", B:"🔴 批评方叙事", C:"🔎 调查报道", D:"⚪ 中立分析" };
-  const CONVERGENCE_MSGS = [
-    "算法注意到你的偏好……",
-    "相似内容权重提升……",
-    "与你'观点相近'的内容增多……",
-    "信息茧房正在成形……",
-    "⚠ 您只看到一种声音了！",
-  ];
 
   let clicks = {};
   let step = 0;
@@ -70,7 +63,7 @@
 
   function calcDiversity() {
     const total = Object.values(clicks).reduce(function(a,b){return a+b;}, 0);
-    if (total === 0) return 1.0;
+    if (total < 4) return 1.0;
     const maxCat = Math.max.apply(null, Object.keys(NEWS).map(function(t){return clicks[t]||0;}));
     if (maxCat >= total * 0.75) return 0.1;
     if (maxCat >= total * 0.60) return 0.35;
@@ -89,6 +82,18 @@
       diversityEl.textContent = diversity > 0.7 ? "✅ 信息多样性高" : diversity > 0.4 ? "⚠ 信息茧房初步形成" : "🔴 已陷入信息茧房！";
       diversityEl.style.color = diversity > 0.7 ? "#16a34a" : diversity > 0.4 ? "#d97706" : "#dc2626";
     }
+
+    if (step === 0) {
+      setStatus("开始浏览，观察算法如何逐渐改变你的信息视野");
+    } else {
+      if (diversity > 0.7) {
+        setStatus("开始浏览，观察算法如何逐渐改变你的信息视野 (第 " + step + " 步)");
+      } else if (diversity > 0.4) {
+        setStatus("相似内容权重提升，信息茧房初步形成 (第 " + step + " 步)");
+      } else {
+        setStatus("⚠ 您只看到一种声音了！ (第 " + step + " 步)");
+      }
+    }
   }
 
   function getWeightedFeedTags() {
@@ -99,6 +104,7 @@
     const total = Object.values(clicks).reduce(function(a,b){return a+b;}, 0);
     if (total === 0) return tags;
     const topRatio = (clicks[top]||0) / total;
+    if (step >= 4 && topRatio >= 0.75) return [top];
     const result = [];
     tags.forEach(function(t) {
       result.push(t);
@@ -128,8 +134,6 @@
         const tag = btn.dataset.tag;
         clicks[tag] = (clicks[tag] || 0) + 1;
         step++;
-        const convMsg = step <= CONVERGENCE_MSGS.length ? CONVERGENCE_MSGS[step-1] : CONVERGENCE_MSGS[CONVERGENCE_MSGS.length-1];
-        setStatus(convMsg + " (第 " + step + " 次阅读)");
         historyLog.unshift({ tag: TAG_LABELS[tag], text: btn.parentElement.querySelector(".news-text").textContent.substring(0,40)+"…", step: step });
         renderHistory();
         renderFeed();
@@ -158,7 +162,6 @@
       const tag = btn.dataset.tag;
       clicks[tag] = (clicks[tag] || 0) + 2;
       step++;
-      setStatus("快速偏向 " + TAG_LABELS[tag]);
       historyLog.unshift({ tag: TAG_LABELS[tag], text: "[主动选择分类]", step: step });
       renderHistory();
       renderFeed();
@@ -167,5 +170,4 @@
 
   renderHistory();
   renderFeed();
-  setStatus("开始浏览，观察算法如何逐渐改变你的信息视野");
   

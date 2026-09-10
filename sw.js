@@ -16,7 +16,13 @@ const CORE_ASSETS = [
   "./app.js",
   "./pm-metrics.js",
   "../shared/design-tokens.css",
-  "../shared/dark-toggle.js"
+  "../shared/releases/v2.6/loader.js",
+  "../shared/releases/v2.6/dark-toggle.js",
+  "../shared/releases/v2.6/cmd-palette.js",
+  "../shared/releases/v2.6/toast.js",
+  "../shared/releases/v2.6/onboarding.js",
+  "../shared/releases/v2.6/global-nav.js",
+  "../shared/releases/v2.6/kbd-hints.js"
 ];
 
 // Install: Pre-cache core assets

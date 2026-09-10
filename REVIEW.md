@@ -5,13 +5,15 @@ This document summarizes the code review findings for the `P35-echo-chamber-maze
 ## HIGH
 
 ### 1. Offline PWA Functionality Incomplete (Service Worker Cache Gap)
-- **Location:** `sw.js` (lines 10-18), `index.html` (line 58)
+- **Location:** `sw.js` (lines 10-18), `index.html` (line 72)
 - **Impact:** The `sw.js` file pre-caches core assets, but misses `../shared/releases/v2.6/loader.js`, which is explicitly loaded in `index.html` and provides critical UI modules (such as `dark,cmd,toast,onboarding,nav,kbd`). When the user goes offline, these scripts will fail to load, potentially causing visual and functional degradation.
-- **Fix Suggestion:** Add `"../shared/releases/v2.6/loader.js"` to the `CORE_ASSETS` array in `sw.js`.
+- **Fix Suggestion:** Add `"../shared/releases/v2.6/loader.js"` and its sub-modules (`../shared/releases/v2.6/dark-toggle.js`, `../shared/releases/v2.6/cmd-palette.js`, `../shared/releases/v2.6/toast.js`, `../shared/releases/v2.6/onboarding.js`, `../shared/releases/v2.6/global-nav.js`, `../shared/releases/v2.6/kbd-hints.js`) to the `CORE_ASSETS` array in `sw.js` and remove the outdated `../shared/dark-toggle.js`.
+
+## LOW
 
 ### 2. Potential Cross-Site Scripting (XSS) via `innerHTML`
-- **Location:** `app.js` (lines 75-77, 87-89)
-- **Impact:** The application uses `innerHTML` to directly inject unescaped content (such as `item.text`, `h.text`) into the DOM. While the current data is hardcoded in the `NEWS` constant, if this application is ever extended to load text data from an external API or URL parameters, this will become an immediate XSS vulnerability.
+- **Location:** `app.js` (lines 123-125, 143-145)
+- **Impact:** The application uses `innerHTML` to directly inject unescaped content (such as `item.text`, `h.text`) into the DOM. While the current data is hardcoded in the `NEWS` constant and thus not currently exploitable, if this application is ever extended to load text data from an external API or URL parameters, this could become an XSS vulnerability.
 - **Fix Suggestion:** Refactor the render functions to create DOM nodes natively using `document.createElement()` and `textContent` for dynamic text values, or use a robust DOM sanitization library (like DOMPurify) before inserting via `innerHTML`.
 
 ## MEDIUM
@@ -24,9 +26,7 @@ This document summarizes the code review findings for the `P35-echo-chamber-maze
 ### 4. Lack of Content Security Policy (CSP)
 - **Location:** `index.html` (Head section)
 - **Impact:** Without a CSP, the application lacks defense-in-depth against XSS or unintended script execution, particularly since it loads external shared modules.
-- **Fix Suggestion:** Add a `<meta http-equiv="Content-Security-Policy" content="...">` tag to `index.html` to restrict script execution and resource loading to trusted origins.
-
-## LOW
+- **Fix Suggestion:** Add a `<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://yuuqq.github.io; img-src 'self' data:">` tag to `index.html` to restrict script execution and resource loading to trusted origins without breaking inline scripts or `data:` URIs.
 
 ### 5. DOM Manipulation Inefficiencies & Accessibility State Loss
 - **Location:** `app.js` (`renderFeed` and `renderHistory` functions)
