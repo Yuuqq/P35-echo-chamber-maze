@@ -2,40 +2,51 @@
 
 > 信息茧房收敛迷宫
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-c7491f?style=for-the-badge)](https://yuuqq.github.io/P35-echo-chamber-maze/)
-[![PWA](https://img.shields.io/badge/PWA-Offline_Ready-4ade80?style=for-the-badge)](#)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-7c3aed?style=for-the-badge)](https://yuuqq.github.io/P35-echo-chamber-maze/)
 
-## 🚀 在线体验
+## 在线体验
 
 **[https://yuuqq.github.io/P35-echo-chamber-maze/](https://yuuqq.github.io/P35-echo-chamber-maze/)**
 
-支持安装为 PWA 应用，离线使用。
+在工具箱站点上可以安装为 PWA。离线可用的范围是本目录核心文件，加上已经缓存过的 `shared/releases/v2.6/` 模块。本仓库里没有 `shared/`。
 
-## ✨ 功能特性
+## 这个页面做什么
 
-- 🌗 暗色/亮色模式一键切换
-- 🔍 `Ctrl+K` 跨工具搜索跳转
-- 📱 PWA 离线支持（可安装到桌面/手机）
-- ♿ 完整无障碍标签（aria-label）
-- 🔒 所有数据仅在浏览器本地处理
+- 点击一条新闻，或用「快速偏向」给某一类加权（一次 +2）。
+- 多样性仪表、状态文案、信息流使用同一套点击计数（`echo-logic.js`）。样本少于 4 时视野保持全开；主导占比到 75% 时信息流只剩那一类。
+- 暗色模式由共享 loader 注入。多样性颜色走 CSS 变量，会随 `data-theme` 变化。
+- 阅读和点击记录留在浏览器里。`pm-metrics.js` 会把遥测写进 `localStorage`，没有上传接口。
 
-## 🛠️ 技术栈
+## 本地运行
 
-- 纯 HTML + CSS + JavaScript（零依赖框架）
-- CSS 变量设计令牌系统
-- Service Worker 缓存策略
+共享脚本不在本仓库。按工具箱的目录布局起静态服务器，否则暗色切换、命令面板和 Service Worker 预缓存会 404：
 
-## 📦 共享模块
+```text
+journalism-toolbox/
+  shared/
+  P35-echo-chamber-maze/
+```
 
-- `design-tokens.css` — 统一设计令牌与暗色模式
-- `dark-toggle.js` — 🌗 暗色/亮色模式切换
-- `cmd-palette.js` — 🔍 Ctrl+K 命令面板
-- `toast.js` — 🔔 Toast 通知系统
-- `onboarding.js` — 🎯 首次访问引导
-- `sw.js` — 📱 PWA Service Worker
-- `pm-metrics.js` — 📊 使用量遥测
+```bash
+cd journalism-toolbox
+python -m http.server 8080
+```
 
-## 📄 许可
+打开 `http://localhost:8080/P35-echo-chamber-maze/`。不要用 `file://` 打开，Service Worker 不会注册。
+
+只想看收敛规则时，不必起页面：
+
+```bash
+node --test
+```
+
+## 技术栈
+
+- HTML + CSS + JavaScript，无框架、无构建
+- 规则在 `echo-logic.js`，页面在 `app.js`
+- Service Worker 只缓存同目录核心文件和 v2.6 loader 子模块
+
+## 许可
 
 本项目为新闻素养教学工具，仅供学习与研究使用。
 

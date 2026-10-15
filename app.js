@@ -61,57 +61,35 @@
 
   function setStatus(t) { if (statusEl) statusEl.textContent = "状态: " + t; }
 
+  const TAGS = Object.keys(NEWS);
+
   function calcDiversity() {
-    const total = Object.values(clicks).reduce(function(a,b){return a+b;}, 0);
-    if (total < 4) return 1.0;
-    const maxCat = Math.max.apply(null, Object.keys(NEWS).map(function(t){return clicks[t]||0;}));
-    if (maxCat >= total * 0.75) return 0.1;
-    if (maxCat >= total * 0.60) return 0.35;
-    if (maxCat >= total * 0.50) return 0.55;
-    return 0.85;
+    return EchoLogic.calcDiversity(clicks, TAGS);
+  }
+
+  function paintTone(el, diversity) {
+    if (!el) return;
+    el.classList.remove("is-high", "is-mid", "is-low");
+    el.classList.add(EchoLogic.toneName(diversity));
   }
 
   function updateDiversityDisplay(diversity) {
     const pct = Math.round(diversity * 100);
-    if (diversityBar) {
-      diversityBar.style.width = pct + "%";
-      diversityBar.style.background = diversity > 0.7 ? "#16a34a" : diversity > 0.4 ? "#d97706" : "#dc2626";
-    }
+    if (diversityBar) diversityBar.style.width = pct + "%";
+    paintTone(diversityBar, diversity);
+    paintTone(diversityEl, diversity);
     if (diversityLabel) diversityLabel.textContent = pct + "% 多样性";
-    if (diversityEl) {
-      diversityEl.textContent = diversity > 0.7 ? "✅ 信息多样性高" : diversity > 0.4 ? "⚠ 信息茧房初步形成" : "🔴 已陷入信息茧房！";
-      diversityEl.style.color = diversity > 0.7 ? "#16a34a" : diversity > 0.4 ? "#d97706" : "#dc2626";
-    }
-
-    if (step === 0) {
-      setStatus("开始浏览，观察算法如何逐渐改变你的信息视野");
-    } else {
-      if (diversity > 0.7) {
-        setStatus("开始浏览，观察算法如何逐渐改变你的信息视野 (第 " + step + " 步)");
-      } else if (diversity > 0.4) {
-        setStatus("相似内容权重提升，信息茧房初步形成 (第 " + step + " 步)");
-      } else {
-        setStatus("⚠ 您只看到一种声音了！ (第 " + step + " 步)");
-      }
-    }
+    if (diversityEl) diversityEl.textContent = EchoLogic.readoutText(diversity);
   }
 
   function getWeightedFeedTags() {
-    const tags = Object.keys(NEWS);
-    if (step < 3) return tags;
-    const sorted = tags.slice().sort(function(a,b){return (clicks[b]||0)-(clicks[a]||0);});
-    const top = sorted[0];
-    const total = Object.values(clicks).reduce(function(a,b){return a+b;}, 0);
-    if (total === 0) return tags;
-    const topRatio = (clicks[top]||0) / total;
-    if (step >= 4 && topRatio >= 0.75) return [top];
-    const result = [];
-    tags.forEach(function(t) {
-      result.push(t);
-      if (t === top && topRatio > 0.5) result.push(t, t);
-      else if (t === top && topRatio > 0.35) result.push(t);
+    return EchoLogic.getWeightedFeedTags(clicks, TAGS);
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
     });
-    return result;
   }
 
   function renderFeed() {
@@ -126,8 +104,10 @@
       const text = pool[Math.floor(Math.random() * pool.length)];
       items.push({ tag: tag, text: text });
     }
+    setStatus(EchoLogic.statusText(diversity, step));
     feed.innerHTML = items.map(function(item) {
-      return '<div class="news-item"><span class="tag-pill tag-' + item.tag.toLowerCase() + '">' + TAG_LABELS[item.tag] + '</span><p class="news-text">' + item.text + '</p><button type="button" class="read-btn" data-tag="' + item.tag + '">点击阅读</button></div>';
+      var tagClass = /^[A-D]$/.test(item.tag) ? item.tag.toLowerCase() : "d";
+      return '<div class="news-item"><span class="tag-pill tag-' + tagClass + '">' + escapeHtml(TAG_LABELS[item.tag] || item.tag) + '</span><p class="news-text">' + escapeHtml(item.text) + '</p><button type="button" class="read-btn" data-tag="' + escapeHtml(item.tag) + '">点击阅读</button></div>';
     }).join("");
     feed.querySelectorAll(".read-btn").forEach(function(btn) {
       btn.addEventListener("click", function() {
@@ -145,16 +125,15 @@
     if (!historyEl) return;
     if (!historyLog.length) { historyEl.innerHTML = '<li style="opacity:.5;font-size:13px">点击新闻后将在此显示阅读轨迹</li>'; return; }
     historyEl.innerHTML = historyLog.slice(0, 12).map(function(h) {
-      return '<li class="hist-row"><span class="hist-step">第' + h.step + '步</span><span class="hist-tag">' + h.tag + '</span><span class="hist-text">' + h.text + '</span></li>';
+      return '<li class="hist-row"><span class="hist-step">第' + escapeHtml(h.step) + '步</span><span class="hist-tag">' + escapeHtml(h.tag) + '</span><span class="hist-text">' + escapeHtml(h.text) + '</span></li>';
     }).join("");
   }
 
   if (resetBtn) resetBtn.addEventListener("click", function() {
     clicks = {}; step = 0; historyLog = [];
-    setStatus("已重置，重新开始探索");
-    updateDiversityDisplay(1.0);
     renderHistory();
     renderFeed();
+    setStatus("已重置，重新开始探索");
   });
 
   tagBtns.forEach(function(btn) {
@@ -165,6 +144,7 @@
       historyLog.unshift({ tag: TAG_LABELS[tag], text: "[主动选择分类]", step: step });
       renderHistory();
       renderFeed();
+      setStatus(EchoLogic.biasStatus(TAG_LABELS[tag], calcDiversity(), step));
     });
   });
 
