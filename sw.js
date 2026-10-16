@@ -8,15 +8,25 @@
  * 3. 网络优先 (Network-First) 获取 API 请求
  * 4. 离线回退页面
  */
+// Shared with the other journalism-toolbox apps on this origin.
+// activate() deletes every cache whose name differs, so do not rename this.
 const CACHE_NAME = "journalism-tool-v1";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./echo-logic.js",
   "./pm-metrics.js",
+  "./manifest.json",
   "../shared/design-tokens.css",
-  "../shared/dark-toggle.js"
+  "../shared/releases/v2.6/loader.js",
+  "../shared/releases/v2.6/dark-toggle.js",
+  "../shared/releases/v2.6/cmd-palette.js",
+  "../shared/releases/v2.6/toast.js",
+  "../shared/releases/v2.6/onboarding.js",
+  "../shared/releases/v2.6/global-nav.js",
+  "../shared/releases/v2.6/kbd-hints.js"
 ];
 
 // Install: Pre-cache core assets
@@ -26,7 +36,9 @@ self.addEventListener("install", (event) => {
       return cache.addAll(CORE_ASSETS).catch(() => {
         // Silently skip missing optional files
         return Promise.allSettled(
-          CORE_ASSETS.map((url) => cache.add(url).catch(() => {}))
+          CORE_ASSETS.map((url) => cache.add(url).catch((err) => {
+            console.warn("SW precache miss:", url, err);
+          }))
         );
       });
     })
@@ -74,10 +86,10 @@ self.addEventListener("fetch", (event) => {
         }
         return response;
       }).catch(() => {
-        // Offline fallback
         if (event.request.destination === "document") {
           return caches.match("./index.html");
         }
+        return new Response("", { status: 503, statusText: "Offline" });
       });
     })
   );
