@@ -8,16 +8,19 @@
  * 3. 网络优先 (Network-First) 获取 API 请求
  * 4. 离线回退页面
  */
-const CACHE_NAME = "journalism-tool-P35-v3-parchment-sense-2-3-4-r20260922";
+const CACHE_NAME = "p35-echo-chamber-maze-v1";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
+  "./favicon.svg",
   "./styles.css",
-  "./modern-styles.css",
   "./app.js",
+  "./echo-logic.js",
   "./pm-metrics.js",
   "../shared/design-tokens.css",
+  "../shared/modern-styles.css",
+  "../shared/tool-chrome.css",
   "../shared/dark-toggle.js",
   "../shared/cmd-palette.js",
   "../shared/toast.js",

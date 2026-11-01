@@ -2,103 +2,95 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#A2402F" />
+  <meta name="color-scheme" content="light dark" />
   <title>P35 信息茧房收敛迷宫</title>
-  <link rel="stylesheet" href="../shared/design-tokens.css" />
-<link rel="stylesheet" href="./modern-styles.css" />
-<link rel="stylesheet" href="./styles.css" />
-<meta name="description" content="信息茧房收敛迷宫。P35 信息茧房收敛迷宫" />
+  <meta name="description" content="体验算法如何逐步构建信息茧房：点击新闻，观察多样性指数下降，理解过滤泡沫机制。" />
   <meta property="og:title" content="P35 信息茧房收敛迷宫" />
   <meta property="og:description" content="信息茧房收敛迷宫 — 前端纯静态新闻工具" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://yuuqq.github.io/P35-echo-chamber-maze/" />
+  <link rel="stylesheet" href="../shared/design-tokens.css" />
+  <link rel="stylesheet" href="../shared/modern-styles.css" />
+  <link rel="stylesheet" href="../shared/tool-chrome.css" />
+  <link rel="stylesheet" href="./styles.css" />
   <link rel="manifest" href="./manifest.json" />
-<style media="print">
-.gnav,.pedagogy-panel,.explore-section,[class*="dark-toggle"],button[aria-label]{display:none!important}
-body{background:#fff!important;color:#000!important;font-size:11pt}
-.app,main,.container{box-shadow:none!important;border:none!important;padding:0!important}
-a{color:#000!important;text-decoration:underline}
-a[href]::after{content:" (" attr(href) ")";font-size:9pt;color:#666}
-@page{margin:2cm}
-</style>
 </head>
-
 <body>
-  <main aria-label="主内容区域" class="app">
+  <a href="#main" class="skip-link">跳到主内容</a>
+  <header class="tool-chrome" data-tool-id="P35">
+    <a class="tool-chrome__mark" href="../P00-dashboard/">新闻实验工具</a>
+    <span class="tool-chrome__id">P35</span>
+  </header>
+
+  <details class="tool-teach">
+    <summary>如何使用</summary>
+    <p>个性化推荐算法通过分析你的点击行为，持续强化你已有的偏好，导致你接触到的信息越来越单一——这就是「信息茧房」（Filter Bubble）。本工具模拟这一过程：每次点击都会悄悄改变你的信息流，直到你意识到自己只听到了一种声音。</p>
+    <ol>
+      <li>初始信息流包含支持、批评、调查、中立四类，多样性为 100%。</li>
+      <li>点击一条新闻，或用「快速偏向」连续加重某一类。</li>
+      <li>观察多样性指数、状态和信息流如何一起收窄。</li>
+      <li>点「重置实验」回到全开视野。</li>
+    </ol>
+  </details>
+
+  <main id="main" aria-label="主内容区域" class="app">
     <header class="hero">
       <h1>信息茧房收敛迷宫</h1>
-      <p>模拟社交平台的算法推荐机制，体验信息茧房如何一步步形成。</p>
+      <p>体验算法如何逐步构建信息茧房：点击新闻阅读，观察多样性指数变化，理解过滤泡沫机制。</p>
     </header>
 
-    <section class="card"><details class="teach-card" open><summary>🎓 信息茧房与回声室效应</summary><p>回声室（Echo Chamber）是指人们在封闭的信息环境中只接触与自己观点一致的内容，导致观点极端化。本工具通过迷宫游戏模拟算法的信息筛选，帮你体验算法推荐如何构建信息茧房。</p></details></section>
-
-    <section class="card" style="background:linear-gradient(135deg,#f0f7ff,#e8f4fd);border-left:4px solid #2563eb">
-      <h2 style="margin-top:0;font-size:1.1rem">🎓 什么是信息茧房？</h2>
-      <p style="font-size:0.95rem;line-height:1.7;margin:0">
-        哈佛法学院凯斯·桑斯坦（Cass Sunstein）提出的概念：当算法持续推荐你"喜欢"的内容时，你会逐渐只看到单一观点，如同被困在一个信息的"茧"中。
-      </p>
-      <details style="margin-top:12px">
-        <summary style="cursor:pointer;font-weight:600;color:#2563eb">📖 如何体验这个模拟？</summary>
-        <ol style="font-size:0.9rem;line-height:1.8;margin-top:8px;padding-left:20px">
-          <li><strong>初始状态</strong>：信息流包含 A（支持）/ B（质疑）/ C（中立）三种观点，多样性指数 = 100</li>
-          <li><strong>连续点击同一观点</strong>（如一直点"观点 A"），观察信息流内容和多样性指数的变化</li>
-          <li><strong>观察收敛</strong>：每次点击后，该观点占比增大，其他声音逐渐消失</li>
-          <li><strong>茧房形成</strong>：当多样性指数降至个位数时，你将只能看到单一立场的内容</li>
-          <li><strong>思考</strong>：现实中的社交平台，是否正在对你做同样的事？</li>
-        </ol>
-      </details>
-    </section>
-
-    <section class="card">
-      <div class="actions">
-        <button data-tag="A">🔵 观点 A（支持）</button>
-        <button data-tag="B">🔴 观点 B（质疑）</button>
-        <button data-tag="C">⚪ 观点 C（中立）</button>
-        <button id="resetBtn" type="button" class="btn-secondary">重置</button>
-      </div>
-      <p id="status" role="status" aria-live="polite">状态: 连续点击同一观点，观察信息流如何收窄 →</p>
-      <div id="diversity" class="diversity-wrap">
-        <span>多样性指数: <strong>100</strong></span>
-        <div class="diversity-bar">
-          <div class="diversity-fill" style="width:100%;background:var(--ok,#0b7a3b)"></div>
+    <div class="top-grid">
+      <section class="card">
+        <div class="diversity-header">
+          <span>信息多样性指数</span>
+          <span id="diversityLabel" class="diversity-label">100% 多样性</span>
         </div>
-      </div>
-    </section>
+        <div class="diversity-track">
+          <div id="diversityBar" class="diversity-bar is-high"></div>
+        </div>
+        <div id="diversity" class="diversity-readout is-high">信息多样性高</div>
+        <p id="status" role="status" aria-live="polite">状态: 开始浏览…</p>
+        <div class="tag-filter-row">
+          <span class="hint-muted">快速偏向：</span>
+          <button type="button" class="tag-btn btn-secondary" data-tag="A">支持</button>
+          <button type="button" class="tag-btn btn-secondary" data-tag="B">批评</button>
+          <button type="button" class="tag-btn btn-secondary" data-tag="C">调查</button>
+          <button type="button" class="tag-btn btn-secondary" data-tag="D">中立</button>
+        </div>
+        <button type="button" id="resetBtn" class="reset-btn btn-secondary">重置实验</button>
+      </section>
+
+      <section class="card">
+        <h2>阅读轨迹（前12步）</h2>
+        <ul id="history" class="hist-list"></ul>
+      </section>
+    </div>
 
     <section class="card">
-      <div id="feed" class="feed"></div>
-    </section>
-
-    <section class="card">
-      <h2>📜 操作历史</h2>
-      <div id="history" class="history"></div>
+      <h2>你的信息流（算法推荐）</h2>
+      <div id="feed" class="feed-grid"></div>
     </section>
   </main>
+
+  <footer class="tool-footer">
+    数据边界以附录 A 为准：能在本机完成的计算不主动外发；示例数据仅供课堂；本工具输出不得单独当作结论。
+    <a href="../P00-dashboard/">返回工具箱</a>
+  </footer>
+
+  <script src="./echo-logic.js" defer></script>
   <script src="./pm-metrics.js" defer></script>
-<script src="./app.js" defer></script>
-
-  <!-- Privacy Notice -->
-  <div style="text-align:center;padding:12px 16px;font-size:12px;color:#888;border-top:1px solid #eee;margin-top:24px;">
-    🔒 隐私提示：本工具所有数据处理均在您的浏览器本地完成，不会上传任何数据至服务器。
-  </div>
-
-  <!-- Cross-Project Navigation -->
-  <nav aria-label="工具箱导航" style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-size:13px;border-top:1px solid #e5e5e5;margin-top:16px;color:#666;">
-    <a href="https://yuuqq.github.io/journalism-toolbox/" style="text-decoration:none;">📋 工具箱导航</a>
-    <span style="opacity:.4">P35</span>
-  </nav>
-
-<script src="../shared/dark-toggle.js" defer></script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
-<script src="../shared/cmd-palette.js" defer></script>
-<script src="../shared/toast.js" defer></script>
-<script src="../shared/onboarding.js" defer></script>
-<script src="../shared/pedagogy-data-p1.js" defer></script>
-<script src="../shared/pedagogy-data-p2.js" defer></script>
-<script src="../shared/global-nav.js" defer></script>
-<script src="../shared/kbd-hints.js" defer></script>
+  <script src="./app.js" defer></script>
+  <script src="../shared/dark-toggle.js" defer></script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
+  <script src="../shared/cmd-palette.js" defer></script>
+  <script src="../shared/toast.js" defer></script>
+  <script src="../shared/onboarding.js" defer></script>
+  <script src="../shared/pedagogy-data-p1.js" defer></script>
+  <script src="../shared/pedagogy-data-p2.js" defer></script>
+  <script src="../shared/global-nav.js" defer></script>
+  <script src="../shared/kbd-hints.js" defer></script>
 </body>
-
 </html>
-

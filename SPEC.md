@@ -19,8 +19,8 @@
 ## 3. UX
 
 - **Core workflow**: 用户输入 → 前端处理 → 结果展示
-- **Inputs**: 观点标签选择
-- **Outputs**: 多样性指数变化 + 收敛可视化
+- **Inputs**: 点击信息流中的新闻，或使用快速偏向（一次计 2 次点击）
+- **Outputs**: 多样性指数、状态文案、加权后的信息流、阅读轨迹
 - **States**: empty (初始) / loading (处理中) / error (失败) / success (完成)
 
 ## 4. Functional Requirements
