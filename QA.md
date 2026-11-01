@@ -9,10 +9,10 @@
 ## Functional Test Cases
 
 1. **核心流程测试**
-   - Steps: 打开 index.html → 输入测试数据 → 执行核心操作
-   - Expected: 正确输出结果
-   - Actual: 通过
-   - Pass/Fail: **Pass**
+   - Steps: 打开页面 → 点击一条信息流里的「点击阅读」→ 同一立场再点到第 4 次 → 点「重置实验」
+   - Expected: 第 4 次后多样性为 10%，信息流只剩该类；重置后回到 100%，轨迹清空
+   - Actual: 见本次浏览器核对
+   - Pass/Fail: **Pass**（规则由 `node --test` 锁定；页面点击见 PR 说明）
 
 ### 已验证项
   - [x] 收敛过程
